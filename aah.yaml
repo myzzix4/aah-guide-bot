@@ -1,0 +1,6 @@
+name: aah-guide-bot
+services:
+  - name: bot
+    dockerfile: Dockerfile
+    target: agentcore_runtime
+    port: 8080
