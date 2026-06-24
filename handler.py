@@ -6,6 +6,7 @@ from samsunglife_kit import Agent
 
 agent = Agent(
     name="가이드 도우미",
+    agent_id="portal-guide-bot",                 # 고정 ID — register dedup (한글 이름 해시 회피)
     platform="aws",                              # 2.4.1 — registry zone
     model_id="anthropic.claude-sonnet-4-6",
     system_prompt=(
