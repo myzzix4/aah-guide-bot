@@ -23,8 +23,14 @@ agent = Agent(
 @agent.invoke
 def handle(ctx, req):
     # Control Plane 이 검색 결과를 input 에 포함해 보냄 → LLM stream
+    # AgentCore Runtime proxy 가 SSE 를 버퍼링 → padding(dict)으로 강제 flush (§13 패턴)
+    yield {"_pad": " " * 65536}            # 초기 버퍼 drain
+    n = 0
     for chunk in ctx.llm.stream(req.input):
         yield chunk
+        n += 1
+        if n % 4 == 0:
+            yield {"_pad": " " * 2048}     # 토큰 4개마다 flush
 
 
 if __name__ == "__main__":
